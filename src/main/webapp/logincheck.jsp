@@ -58,7 +58,7 @@
     } catch (ClassNotFoundException e) {
         out.println("Oracle JDBC Driver not found" + e.getMessage());
     } catch (SQLException e) {
-        out.println("Database Error" + e.getMessage());
+        out.println("User Not Found" + e.getMessage());
     } finally {
         try {
             if (rs != null) rs.close();

@@ -94,11 +94,10 @@
     <div class="container">
         <h2>Room Booking</h2>
 
-       
         <form action="BookRoom.jsp" method="post">
             <div class="form-group">
                 <label for="user_email">Your Email</label>
-                <input type="text" name="user_email" id="user_email" required>
+                <input type="text" name="user_email" id="user_email" required autocomplete="email" value="<%= session.getAttribute("userEmail") != null ? session.getAttribute("userEmail") : "" %>">
             </div>
             
             <div class="form-group">
@@ -111,9 +110,8 @@
                 </select>
             </div>
             
-            
             <div id="room_details">
-                
+                <!-- Room details will be displayed here -->
             </div>
 
             <div class="form-group">
@@ -123,7 +121,6 @@
     </div>
 
     <script>
-        
         function getRoomDetails(roomType) {
             if (roomType) {
                 var xhr = new XMLHttpRequest();

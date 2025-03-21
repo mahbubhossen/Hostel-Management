@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Room Details</title>
@@ -11,6 +10,25 @@
             background-color: #f7f7f7;
             margin: 0;
             padding: 0;
+            text-align: center;
+        }
+        .room-category {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .category-box {
+            padding: 15px 25px;
+            border-radius: 8px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .category-box:hover {
+            background-color: #388E3C;
         }
         table {
             width: 80%;
@@ -29,77 +47,52 @@
         td {
             background-color: #f9f9f9;
         }
+        .book-room-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .book-room-btn:hover {
+            background-color: #388E3C;
+        }
     </style>
 </head>
 <body>
 
-<%
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
+    <h2>Select Room Type</h2>
+    <div class="room-category">
+        <div class="category-box" onclick="loadRooms('Single')">Single</div>
+        <div class="category-box" onclick="loadRooms('Double')">Double</div>
+        <div class="category-box" onclick="loadRooms('Triple')">Triple</div>
+    </div>
 
-    try {
-        
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        
-        
-        conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "DATAFORHOSTEL", "M@hbub181253");
+    <div id="roomDetails"></div>
 
-        
-        stmt = conn.createStatement();
-
-        
-        String sql = "SELECT ROOM_NUMBER, ROOM_TYPE, PRICE, STATUS FROM ROOMS";
-
-        
-        rs = stmt.executeQuery(sql);
-%>
-
+    <!-- Book Room Button -->
+    <a href="RoomBooking.jsp" class="book-room-btn">Book Room</a>
     
-    <table>
-        <thead>
-            <tr>
-                <th>Room Number</th>
-                <th>Room Type</th>
-                <th>Price</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-                
-                while(rs.next()) {
-                    int roomNumber = rs.getInt("ROOM_NUMBER");
-                    String roomType = rs.getString("ROOM_TYPE");
-                    double price = rs.getDouble("PRICE");
-                    String status = rs.getString("STATUS");
-            %>
-            <tr>
-                <td><%= roomNumber %></td>
-                <td><%= roomType %></td>
-                <td><%= price %></td>
-                <td><%= status %></td>
-            </tr>
-            <%
-                }
-            %>
-        </tbody>
-    </table>
+    
+    <h1 style="text-align: center; margin-bottom: 40px; margin-top: 60px;">All our room prices are in BDT and on a per-month basis.</h1>
+    
 
-<%
-    } catch (Exception e) {
-        e.printStackTrace();
-        out.println("<p>Error: " + e.getMessage() + "</p>");
-    } finally {
-        try {
-            if (rs != null) rs.close();
-            if (stmt != null) stmt.close();
-            if (conn != null) conn.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
+    <script>
+        function loadRooms(roomType) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "RoomDetailsAjax.jsp?room_type=" + roomType, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("roomDetails").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
         }
-    }
-%>
+    </script>
 
 </body>
 </html>

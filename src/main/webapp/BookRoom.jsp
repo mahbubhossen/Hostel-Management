@@ -15,13 +15,13 @@
 
     if (userEmail != null && roomType != null) {
         try {
-            
+            // Oracle JDBC ড্রাইভার লোড
             Class.forName("oracle.jdbc.OracleDriver");
 
-            
+            // ডাটাবেজ সংযোগ
             conn = DriverManager.getConnection(url, username, password);
 
-            
+            // রুম তথ্য খোঁজা
             String query = "SELECT ROOM_NUMBER, PRICE FROM ROOMS WHERE ROOM_TYPE = ?";
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, roomType);
@@ -32,7 +32,7 @@
                 price = rs.getString("PRICE");   
             }
 
-            
+            // যদি রুম পাওয়া যায় তাহলে বুকিং সংরক্ষণ এবং session সেট করা
             if (roomId != null && price != null) {
                 String insertQuery = "INSERT INTO ROOM_BOOKINGS (USER_EMAIL, ROOM_ID, ROOM_TYPE, AMOUNT, BOOKING_DATE) "
                                    + "VALUES (?, ?, ?, ?, ?)";
@@ -45,9 +45,15 @@
 
                 int result = pstmt.executeUpdate();
 
-                
                 if (result > 0) {
-                    response.sendRedirect("MakePayment.jsp"); 
+                    // **Session এ price সংরক্ষণ**
+                    session.setAttribute("userEmail", userEmail);
+                    session.setAttribute("roomType", roomType);
+                    session.setAttribute("roomId", roomId);
+                    session.setAttribute("price", price); // Price সংরক্ষণ করলাম
+                    
+                    // Make Payment পেজে রিডাইরেক্ট
+                    response.sendRedirect("MakePayment.jsp");
                 } else {
                     out.println("Please Try again");
                 }
@@ -58,14 +64,14 @@
         } catch (ClassNotFoundException e) {
             out.println("Oracle JDBC Driver not found " + e.getMessage());
         } catch (SQLException e) {
-            out.println("Database error  " + e.getMessage());
+            out.println("Database error: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                out.println("connection error " + e.getMessage());
+                out.println("Connection error: " + e.getMessage());
             }
         }
     } else {

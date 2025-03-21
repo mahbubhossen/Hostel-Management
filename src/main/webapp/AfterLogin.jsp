@@ -73,18 +73,13 @@
             <h3>Profile</h3>
             <a href="Dashboard.jsp">View Profile</a>
         </div>
+        
         <div class="box">
             <h3>Room Details</h3>
             <a href="RoomDetails.jsp">View Room Details</a>
         </div>
-        <div class="box">
-            <h3>Room Booking</h3>
-            <a href="RoomBooking.jsp">Book Room</a>
-        </div>
-        <div class="box">
-            <h3>Payment</h3>
-            <a href="MakePayment.jsp">Make Payment</a>
-        </div>
+        
+        
         <div class="box">
             <h3>Payment History</h3>
             <a href="paymentHistory.jsp">View Payment History</a>

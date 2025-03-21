@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    // Session থেকে price রিড করছি
+    String price = (String) session.getAttribute("price");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +58,13 @@
     <div class="container">
         <h2>Make Payment</h2>
 
-        
         <form action="ProcessPayment.jsp" method="post">
+            
+            <div class="form-group">
+                <label for="amount">Room Price (BDT):</label>
+                <input type="number" name="amount" id="amount" value="<%= price %>" readonly required>
+            </div>
+
             <div class="form-group">
                 <label for="payment_method">Select Payment Method:</label>
                 <select name="payment_method" id="payment_method" required>
@@ -67,12 +76,6 @@
             </div>
 
             <div class="form-group">
-                <label for="amount">Enter Amount:</label>
-                <input type="number" name="amount" id="amount" min="1" required placeholder="Enter amount in BDT">
-            </div>
- 
-            <div class="form-group">
-                
                 <input type="submit" class="payment-btn" value="Proceed to Pay">
             </div>
 
