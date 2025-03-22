@@ -71,51 +71,45 @@
             </tr>
 
             <%
-                
                 Connection conn = null;
                 PreparedStatement pstmt = null;
                 ResultSet rs = null;
-                
+
                 String userEmail = (String) session.getAttribute("userEmail");
 
-                try {
-                    Class.forName("oracle.jdbc.driver.OracleDriver");
-                    conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "DATAFORHOSTEL", "M@hbub181253");
+                Class.forName("oracle.jdbc.driver.OracleDriver");
+                conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "DATAFORHOSTEL", "M@hbub181253");
 
-                    
-                    String query = "SELECT * FROM PAYMENTS WHERE USER_EMAIL = ?";
-                    pstmt = conn.prepareStatement(query);
-                    pstmt.setString(1, userEmail);
-                    rs = pstmt.executeQuery();
+                String query = "SELECT * FROM PAYMENTS WHERE USER_EMAIL = ?";
+                pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, userEmail);
+                rs = pstmt.executeQuery();
 
-                    boolean isEmpty = true;
-                    while (rs.next()) {
-                        isEmpty = false;
+                boolean isEmpty = true;
+                while (rs.next()) {
+                    isEmpty = false;
             %>
-                        <tr>
-                            <td><%= rs.getInt("PAYMENT_ID") %></td>
-                            <td><%= rs.getString("USER_EMAIL") %></td>
-                            <td><%= rs.getString("PAYMENT_METHOD") %></td>
-                            <td><%= rs.getInt("AMOUNT") %></td>
-                            <td><%= rs.getString("PAYMENT_DATE") %></td>
-                        </tr>
+                    <tr>
+                        <td><%= rs.getInt("PAYMENT_ID") %></td>
+                        <td><%= rs.getString("USER_EMAIL") %></td>
+                        <td><%= rs.getString("PAYMENT_METHOD") %></td>
+                        <td><%= rs.getInt("AMOUNT") %></td>
+                        <td><%= rs.getString("PAYMENT_DATE") %></td>
+                    </tr>
             <%
-                    }
-                    if (isEmpty) {
-                        out.println("<tr><td colspan='5' style='color:red;'>No payment history found.</td></tr>");
-                    }
-                } catch (Exception e) {
-                    out.println("<tr><td colspan='5' style='color:red;'>Error retrieving data!</td></tr>");
-                    e.printStackTrace();
-                } finally {
-                    if (rs != null) try { rs.close(); } catch (SQLException e) {}
-                    if (pstmt != null) try { pstmt.close(); } catch (SQLException e) {}
-                    if (conn != null) try { conn.close(); } catch (SQLException e) {}
                 }
+                if (isEmpty) {
+                    out.println("<tr><td colspan='5' style='color:red;'>No payment history found.</td></tr>");
+                }
+
+               
+                rs.close();
+                pstmt.close();
+                conn.close();
             %>
         </table>
 
-        <a href="AfterLogin.jsp" class="back-btn">Back to Dashboard</a>
+        <a href="Dashboard.jsp" class="back-btn">Back to Dashboard</a>
     </div>
 
 </body>

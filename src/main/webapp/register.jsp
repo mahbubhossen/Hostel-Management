@@ -16,7 +16,7 @@
             width: 40%;
             margin: 50px auto;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.8); /* Transparent background for readability */
+            background-color: rgba(255, 255, 255, 0.8); 
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -113,7 +113,7 @@
             </div>
         </form>
 
-        <!-- Login Option -->
+        
         <div class="login-link">
             <p>Already have an account? <a href="loginPage.jsp">Login here</a></p>
         </div>

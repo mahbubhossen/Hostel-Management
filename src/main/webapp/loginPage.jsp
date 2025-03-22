@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Login Page</title>
     
-    <!-- CSS style -->
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,6 +45,18 @@
         .login-container input[type="submit"]:hover {
             background-color: #45a049;
         }
+        
+        .register-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
         .error {
             color: red;
             font-size: 12px;
@@ -56,20 +68,11 @@
 
 <h1 style="text-align: center; margin-bottom: 40px;">MSZ HOSTEL</h1>
 
-<%
-    String email = request.getParameter("email");
-    String password = request.getParameter("password");
 
-    if (email != null && password != null) {
-        
-    	
-        response.sendRedirect("logincheck.jsp?email=" + email + "&password=" + password);  
-    }
-%>
 
     <div class="login-container">
         <h2>Login</h2>
-        <form method="post" action="loginPage.jsp">
+        <form method="post" action="logincheck.jsp">
             <label for="email">Email:</label><br>
             <input type="email" id="email" name="email" required><br>
             
@@ -78,6 +81,10 @@
             
             <input type="submit" value="Login">
         </form>
+        
+        <div class="register-link">
+            Don't have an account? <a href="register.jsp">Register here</a>
+        </div>
     </div>
 
 </body>

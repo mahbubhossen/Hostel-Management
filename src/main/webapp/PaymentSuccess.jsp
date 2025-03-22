@@ -45,7 +45,7 @@
 
         <script>
             setTimeout(function() {
-                window.location.href = "AfterLogin.jsp"; 
+                window.location.href = "Dashboard.jsp"; 
             }, 3000); 
         </script>
     </div>

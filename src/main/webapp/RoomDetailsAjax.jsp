@@ -7,14 +7,13 @@
     ResultSet rs = null;
     String roomType = request.getParameter("room_type");
 
-    try {
-        Class.forName("oracle.jdbc.OracleDriver");
-        conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "DATAFORHOSTEL", "M@hbub181253");
+    Class.forName("oracle.jdbc.OracleDriver");
+    conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "DATAFORHOSTEL", "M@hbub181253");
 
-        String sql = "SELECT ROOM_NUMBER, PRICE, STATUS FROM ROOMS WHERE ROOM_TYPE = ?";
-        pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, roomType);
-        rs = pstmt.executeQuery();
+    String sql = "SELECT ROOM_NUMBER, PRICE, STATUS FROM ROOMS WHERE ROOM_TYPE = ?";
+    pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, roomType);
+    rs = pstmt.executeQuery();
 %>
 
 <table>
@@ -44,11 +43,7 @@
 </table>
 
 <%
-    } catch (Exception e) {
-        out.println("<p>Error: " + e.getMessage() + "</p>");
-    } finally {
-        if (rs != null) rs.close();
-        if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
-    }
+    if (rs != null) rs.close();
+    if (pstmt != null) pstmt.close();
+    if (conn != null) conn.close();
 %>

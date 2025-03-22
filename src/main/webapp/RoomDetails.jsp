@@ -74,7 +74,7 @@
 
     <div id="roomDetails"></div>
 
-    <!-- Book Room Button -->
+    
     <a href="RoomBooking.jsp" class="book-room-btn">Book Room</a>
     
     

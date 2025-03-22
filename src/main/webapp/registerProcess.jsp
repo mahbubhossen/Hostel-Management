@@ -61,12 +61,10 @@
 
 <div class="container">
 <%
-    // Oracle Database Connection Info
     String url = "jdbc:oracle:thin:@localhost:1521:xe";
-    String username = "DATAFORHOSTEL";  // নিজের Oracle username দিও
-    String password = "M@hbub181253";  // নিজের Oracle password দিও
+    String username = "DATAFORHOSTEL";  
+    String password = "M@hbub181253";  
 
-    // User Input Data
     String name = request.getParameter("name");
     String email = request.getParameter("email");
     String phone = request.getParameter("phone");
@@ -74,53 +72,34 @@
     String dob = request.getParameter("dob");
     String gender = request.getParameter("gender");
 
-    Connection conn = null;
-    PreparedStatement pstmt = null;
+    Class.forName("oracle.jdbc.driver.OracleDriver");
+    Connection conn = DriverManager.getConnection(url, username, password);
+    String sql = "INSERT INTO users (name, email, phone_number, password, date_of_birth, gender) VALUES (?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
+    
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    pstmt.setString(1, name);
+    pstmt.setString(2, email);
+    pstmt.setString(3, phone);
+    pstmt.setString(4, pass);
+    pstmt.setString(5, dob);
+    pstmt.setString(6, gender);
 
-    try {
-        // Load Oracle JDBC Driver
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        
-        // Create Connection
-        conn = DriverManager.getConnection(url, username, password);
+    int rowsInserted = pstmt.executeUpdate();
+    
+    pstmt.close();
+    conn.close();
 
-        // SQL Query
-        String sql = "INSERT INTO users (name, email, phone_number, password, date_of_birth, gender) VALUES (?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
-        pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, email);
-        pstmt.setString(3, phone);
-        pstmt.setString(4, pass);
-        pstmt.setString(5, dob);
-        pstmt.setString(6, gender);
-
-        // Execute Query
-        int rowsInserted = pstmt.executeUpdate();
-
-        if (rowsInserted > 0) {
+    if (rowsInserted > 0) {
 %>
+        <h2>Registration Successful!</h2>
+        <p class="message">Welcome, <%= name %>! Your account has been created.</p>
+        <a href="loginPage.jsp" class="btn">Go to Login</a>
 <%
-response.sendRedirect("loginPage.jsp"); 
+    } else {
 %>
-            <h2>Registration Successful!</h2>
-            <p class="message">Welcome, <%= name %>! Your account has been created.</p>
-            <a href="loginPage.jsp" class="btn">Go to Login</a>
+        <h2 class="error">Registration Failed!</h2>
+        <p class="error">Something went wrong. Please try again.</p>
 <%
-        } else {
-%>
-            <h2 class="error">Registration Failed!</h2>
-            <p class="error">Something went wrong. Please try again.</p>
-<%
-        }
-
-    } catch (Exception e) {
-%>
-        <h2 class="error">Error Occurred!</h2>
-        <p class="error"><%= e.getMessage() %></p>
-<%
-    } finally {
-        if (pstmt != null) pstmt.close();
-        if (conn != null) conn.close();
     }
 %>
 </div>

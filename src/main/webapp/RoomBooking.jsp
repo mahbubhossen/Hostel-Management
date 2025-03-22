@@ -97,7 +97,7 @@
         <form action="BookRoom.jsp" method="post">
             <div class="form-group">
                 <label for="user_email">Your Email</label>
-                <input type="text" name="user_email" id="user_email" required autocomplete="email" value="<%= session.getAttribute("userEmail") != null ? session.getAttribute("userEmail") : "" %>">
+                <input type="text" name="user_email" id="user_email" required autocomplete="email" value="<%= session.getAttribute("userEmail") != null ? session.getAttribute("userEmail") : "" %>" readonly>
             </div>
             
             <div class="form-group">
@@ -111,7 +111,7 @@
             </div>
             
             <div id="room_details">
-                <!-- Room details will be displayed here -->
+                
             </div>
 
             <div class="form-group">
